@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Star, MapPin, Phone, Clock, Calendar, User } from 'lucide-react'
+import { Star, MapPin, Phone, Clock, Calendar } from 'lucide-react'
 import { timeSlots } from '@/lib/utils'
 
 interface Doctor {
@@ -48,7 +48,7 @@ export function DoctorCard({ doctor, onBookAppointment }: DoctorCardProps) {
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
-              {doctor.name}
+             Dr. {doctor.name}
             </h3>
             <p className="text-primary-600 dark:text-primary-400 font-medium mb-2">
               {doctor.specialization} • {doctor.experience} years exp.
