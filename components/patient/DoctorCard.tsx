@@ -131,8 +131,11 @@ export function DoctorCard({ doctor, onBookAppointment }: DoctorCardProps) {
             onClick={() => onBookAppointment(doctor.id)}
             disabled={doctor.availableSlots.length === 0}
           >
-            <Calendar className="w-4 h-4 mr-2" />
-            Book Appointment
+            <div className='flex items-center justify-center'>
+              <Calendar className="w-5 h-5 mr-2" />
+              Book Appointment
+            </div>
+            
           </Button>
           <Button
             variant="outline"

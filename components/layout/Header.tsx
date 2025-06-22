@@ -38,7 +38,7 @@ export function Header({ title = 'QuickCare', children }: HeaderProps) {
             
             {session && (
               <div className="flex items-center space-x-3">
-                { session.user.role == 'patient' ? <span className="text-sm text-gray-800 dark:text-gray-300">
+                { session.user.role == 'patient' ? <span className="text-lg text-gray-800 dark:text-gray-300">
                   Welcome, {session.user.name}
                 </span> : null}
                 <Button

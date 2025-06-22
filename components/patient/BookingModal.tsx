@@ -107,7 +107,7 @@ export function BookingModal({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={`Book Appointment with ${doctor?.name || ''}`}
+      title={`Book Appointment with Dr. ${doctor?.name || ''}`}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
