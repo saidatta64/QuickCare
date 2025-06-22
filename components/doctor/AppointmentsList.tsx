@@ -10,7 +10,7 @@ import { formatTime } from '@/lib/utils'
 
 interface Appointment {
   id: string
-  patient_name: string  // This comes directly from appointments table
+  patient_name: string
   patient_age: number
   patient_gender: string
   patient_phone: string
@@ -37,11 +37,10 @@ export function AppointmentsList({
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [pendingAction, setPendingAction] = useState<{ id: string; status: string } | null>(null)
 
-  // Defensive: Ensure appointments is always an array
   const safeAppointments = Array.isArray(appointments) ? appointments : []
 
   const filteredAppointments = selectedDate
-    ? safeAppointments.filter(apt => 
+    ? safeAppointments.filter(apt =>
         apt &&
         apt.appointment_date &&
         format(new Date(apt.appointment_date), 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')
@@ -88,7 +87,8 @@ export function AppointmentsList({
         </span>
       </div>
 
-      <div className="space-y-3 max-h-96 overflow-y-auto">
+      {/* Updated fixed height to match red line (~630px) */}
+      <div className="space-y-3 overflow-y-auto h-[630px] pr-1">
         {filteredAppointments.length === 0 ? (
           <Card>
             <CardContent className="text-center py-8">
@@ -123,11 +123,11 @@ export function AppointmentsList({
                     <Clock className="w-4 h-4" />
                     <span>{appointment?.time_slot ? formatTime(appointment.time_slot) : '-'}</span>
                   </div>
-                  <div className="flex items-center space-x-20 ">
-                    <span className='capitalize'>
+                  <div className="flex items-center space-x-20">
+                    <span className="capitalize">
                       Age: {appointment?.patient_age ?? '-'}, {appointment?.patient_gender ?? '-'}
                     </span>
-                    <span className='text-gray-600 dark:text-gray-300'>
+                    <span className="text-gray-600 dark:text-gray-300">
                       {appointment?.appointment_date
                         ? format(new Date(appointment.appointment_date), 'MMM d, yyyy')
                         : '-'}
@@ -208,7 +208,7 @@ export function AppointmentsList({
                 )}
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white mb-2">Appointment Details</h4>
               <div className="space-y-2 text-sm">
@@ -262,3 +262,4 @@ export function AppointmentsList({
     </div>
   )
 }
+  

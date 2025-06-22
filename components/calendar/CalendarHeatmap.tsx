@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   format,
   startOfMonth,
@@ -29,6 +29,12 @@ export function CalendarHeatmap({
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear())
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth())
+
+
+    useEffect(() => {
+    setSelectedYear(currentDate.getFullYear())
+    setSelectedMonth(currentDate.getMonth())
+    }, [currentDate])
 
   const firstOfMonth = startOfMonth(new Date(selectedYear, selectedMonth))
   const lastOfMonth = endOfMonth(firstOfMonth)
