@@ -42,13 +42,6 @@ export function CalendarHeatmap({
     return 'bg-indigo-800 dark:bg-primary-400'
   }
 
-  const currentYear = today.getFullYear()
-  const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i)
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ]
-
   const monthNavigation = (direction: 'prev' | 'next') => {
     setCurrentDate(direction === 'prev' 
       ? subMonths(currentDate, 1) 
@@ -88,28 +81,7 @@ export function CalendarHeatmap({
         </Button>
       </div>
 
-      {/* Year and Month Dropdowns */}
-      <div className="flex gap-4 mb-6">
-        <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(Number(e.target.value))}
-          className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-sm rounded-md p-2 text-gray-800 dark:text-white"
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
-
-        <select
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(Number(e.target.value))}
-          className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-sm rounded-md p-2 text-gray-800 dark:text-white"
-        >
-          {months.map((label, idx) => (
-            <option key={label} value={idx}>{label}</option>
-          ))}
-        </select>
-      </div>
+      
 
       <div className="grid grid-cols-7 gap-2 mb-4">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
