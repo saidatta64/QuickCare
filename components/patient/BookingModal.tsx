@@ -54,15 +54,22 @@ export function BookingModal({
   }
 
   const onSubmit = async (data: BookingFormData) => {
-    if (!selectedDate || !selectedSlot) return
-    
-    await onBook({
-      ...data,
-      appointmentDate: selectedDate,
-      timeSlot: selectedSlot
-    })
-    
-    handleClose()
+    if (!selectedDate || !selectedSlot) {
+      console.error('Missing required fields:', { selectedDate, selectedSlot });
+      return;
+    }
+
+    try {
+      await onBook({
+        ...data,
+        appointmentDate: selectedDate,
+        timeSlot: selectedSlot
+      });
+      handleClose();
+    } catch (error) {
+      console.error('Error in onSubmit:', error);
+      // You might want to show an error message to the user here
+    }
   }
 
   // Generate next 7 days
@@ -76,13 +83,24 @@ export function BookingModal({
   })
 
   const getAvailableSlots = () => {
-    if (!selectedDate) return []
+    if (!selectedDate) return [];
     
-    const date = new Date(selectedDate)
-    return timeSlots.filter(slot => 
-      availableSlots.includes(slot.value) && 
-      isSlotAvailable(date, slot.value)
-    )
+    const date = new Date(selectedDate);
+    const today = new Date();
+    
+    // For all dates, return all time slots that are in availableSlots
+    // The actual availability will be checked on the server side
+    return timeSlots.filter(slot => {
+      // Only include slots that are in the availableSlots array
+      const isAvailable = availableSlots.includes(slot.value);
+      
+      // If it's today, also check if the slot is in the future
+      if (date.toDateString() === today.toDateString()) {
+        return isAvailable && isSlotAvailable(date, slot.value);
+      }
+      
+      return isAvailable;
+    });
   }
 
   return (

@@ -57,12 +57,21 @@ export function formatTime(timeSlot: string) {
   return slots?.label || timeSlot
 }
 
-export function isSlotAvailable(date: Date, timeSlot: string) {
+export function isSlotAvailable(selectedDate: Date, timeSlot: string) {
   const now = new Date()
-  const appointmentDateTime = new Date(date)
-  const [startTime] = timeSlot.split('-')
-  const [hours, minutes] = startTime.split(':').map(Number)
-  appointmentDateTime.setHours(hours, minutes, 0, 0)
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const appointmentDate = new Date(selectedDate)
   
-  return appointmentDateTime > now
+  // If the selected date is today, check if the time slot is in the future
+  if (appointmentDate.toDateString() === today.toDateString()) {
+    const [startTime] = timeSlot.split('-')
+    const [hours, minutes] = startTime.split(':').map(Number)
+    const appointmentDateTime = new Date(appointmentDate)
+    appointmentDateTime.setHours(hours, minutes, 0, 0)
+    
+    return appointmentDateTime > now
+  }
+  
+  // For future dates, all slots are available
+  return appointmentDate >= today
 }

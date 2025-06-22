@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
     const {
       doctorId,
+      patientName,
       appointmentDate,
       timeSlot,
       age,
@@ -24,44 +25,65 @@ export async function POST(request: NextRequest) {
     // Get patient profile
     const { data: patient } = await supabaseAdmin
       .from('patients')
-      .select('id, first_name, last_name')
+      .select('id')
       .eq('user_id', session.user.id)
       .single()
 
     if (!patient) {
       return NextResponse.json({ error: 'Patient profile not found' }, { status: 404 })
     }
-    
-    const fullPatientName = `${patient.first_name} ${patient.last_name}`.trim()
+
+    console.log('Creating appointment with:', {
+      doctorId,
+      patientId: patient.id,
+      patientName,
+      appointmentDate,
+      timeSlot,
+      age,
+      gender,
+      phone
+    });
 
     // Get current queue position for the slot
-    const { data: existingAppointments } = await supabaseAdmin
+    const { data: existingAppointments, error: queueError } = await supabaseAdmin
       .from('appointments')
       .select('queue_position')
       .eq('doctor_id', doctorId)
-      .eq('patient_id', patient.id)
       .eq('appointment_date', appointmentDate)
       .eq('time_slot', timeSlot)
       .eq('status', 'scheduled')
       .order('queue_position', { ascending: false })
-      .limit(1)
+      .limit(1);
 
-    const queuePosition = existingAppointments?.[0]?.queue_position ?? 0
+    if (queueError) {
+      console.error('Error fetching queue position:', queueError);
+      return NextResponse.json({ error: 'Error checking appointment availability' }, { status: 500 });
+    }
+
+    const queuePosition = existingAppointments?.[0]?.queue_position ?? 0;
 
     // Check if slot is full (max 7 appointments)
     if (queuePosition >= 7) {
-      return NextResponse.json({ error: 'Time slot is full' }, { status: 400 })
+      return NextResponse.json({ error: 'Time slot is full' }, { status: 400 });
     }
 
     // Update patient info
-    await supabaseAdmin
+    const { error: patientUpdateError } = await supabaseAdmin
       .from('patients')
       .update({
-        age,
+        age: parseInt(age),
         gender,
         phone: phone || null
       })
-      .eq('id', patient.id)
+      .eq('id', patient.id);
+
+    if (patientUpdateError) {
+      console.error('Error updating patient info:', patientUpdateError);
+      return NextResponse.json(
+        { error: 'Failed to update patient information' },
+        { status: 500 }
+      );
+    }
 
     // Create appointment
     const { data: appointment, error } = await supabaseAdmin
@@ -69,8 +91,8 @@ export async function POST(request: NextRequest) {
       .insert({
         doctor_id: doctorId,
         patient_id: patient.id,
-        patient_name: fullPatientName,
-        patient_age: age,
+        patient_name: patientName,
+        patient_age: parseInt(age),
         patient_gender: gender,
         patient_phone: phone || null,
         appointment_date: appointmentDate,
@@ -79,19 +101,15 @@ export async function POST(request: NextRequest) {
         notes: notes || '',
         status: 'scheduled'
       })
-      .select(`
-        *,
-        doctors (
-          users (name),
-          specialization,
-          consultation_fee
-        )
-      `)
-      .single()
+      .select('*')
+      .single();
 
     if (error) {
-      console.error('Appointment creation error:', error)
-      return NextResponse.json({ error: 'Failed to create appointment' }, { status: 500 })
+      console.error('Error creating appointment:', error);
+      return NextResponse.json(
+        { error: 'Failed to create appointment' },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(appointment, { status: 201 })

@@ -73,26 +73,10 @@ export async function GET(request: NextRequest) {
 
         const isAvailable = availability?.is_available !== false
 
-        // Get current appointments for today to determine available slots
-        const { data: todayAppointments } = await supabaseAdmin
-          .from('appointments')
-          .select('time_slot')
-          .eq('doctor_id', doctor.id)
-          .eq('appointment_date', todayString)
-          .eq('status', 'scheduled')
-
-        const bookedSlots = todayAppointments?.reduce((acc, apt) => {
-          acc[apt.time_slot] = (acc[apt.time_slot] || 0) + 1
-          return acc
-        }, {} as Record<string, number>) || {}
-
+        // For now, we'll return all time slots for the doctor's available days
+        // The actual availability will be checked when booking
         const availableSlots = isAvailable 
-          ? timeSlots
-              .filter(slot => 
-                isSlotAvailable(today, slot.value) && 
-                (bookedSlots[slot.value] || 0) < 7
-              )
-              .map(slot => slot.value)
+          ? timeSlots.map(slot => slot.value)
           : []
 
         return {
