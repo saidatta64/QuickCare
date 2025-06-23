@@ -96,7 +96,7 @@ The following environment variables are required to run the application:
 
 ## Demo images here
 
- ![alt text](<Screenshot 2025-06-23 001327.png>) ![alt text](<Screenshot 2025-06-23 001400.png>) ![alt text](<Screenshot 2025-06-23 001415.png>) ![alt text](<Screenshot 2025-06-23 001428.png>) ![alt text](<Screenshot 2025-06-23 001448.png>)![alt text](<Screenshot 2025-06-23 001504.png>)
+ ![alt text](public\image1.png) ![alt text](public\image2.png) ![alt text](public\image3.png) ![alt text](public\image4.png) ![alt text](public\image5.png)![alt text](public\image6.png)
 
 ## License
 
