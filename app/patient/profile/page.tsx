@@ -125,17 +125,9 @@ export default function PatientProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Header>
-        <Link 
-          href="/patient/dashboard"
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Dashboard</span>
-        </Link>
-      </Header>
+      <Header />
       
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 sm:pt-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Profile Settings

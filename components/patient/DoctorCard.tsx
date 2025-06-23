@@ -133,9 +133,8 @@ export function DoctorCard({ doctor, onBookAppointment }: DoctorCardProps) {
           >
             <div className='flex items-center justify-center'>
               <Calendar className="w-5 h-5 mr-2" />
-              Book Appointment
+              Book Now
             </div>
-            
           </Button>
           <Button
             variant="outline"
