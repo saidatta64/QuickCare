@@ -6,7 +6,7 @@ import { AuthProvider } from './providers/AuthProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'QuickCare - Professional Doctor Appointment Booking',
+  title: 'QuickCare',
   description: 'Book appointments with experienced doctors easily and efficiently',
   keywords: 'doctor appointment, healthcare, medical booking, QuickCare',
 }
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />        
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={inter.className}>
         <AuthProvider>

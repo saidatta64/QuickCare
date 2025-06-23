@@ -1,11 +1,18 @@
 import React from 'react'
+import { cn } from '@/lib/utils'
+
+interface LoadingSpinnerProps {
+  size?: 'sm' | 'md' | 'lg'
+  className?: string
+}
 
 /**
  * Animated loader converted from HTML & CSS (Uiverse.io by milley69)
  * Props:
  *  - size: 'sm' | 'md' | 'lg' (controls SVG dimensions)
+ *  - className: Additional CSS classes
  */
-export function LoadingSpinner({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
+export function LoadingSpinner({ size = 'md', className }: LoadingSpinnerProps) {
   /**
    * Approximate SVG aspect ratio ~ 64:48 (width:height ≈ 4:3).
    * We scale both width and height proportionally by the factor map below.
@@ -21,7 +28,7 @@ export function LoadingSpinner({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const width = Math.round((height * 4) / 3)
 
   return (
-    <div className="flex items-center justify-center" role="status" aria-live="polite">
+    <div className={cn("flex items-center justify-center", className)} role="status" aria-live="polite">
       <svg
         width={width}
         height={height}

@@ -12,6 +12,13 @@ import { Input } from '@/components/ui/Input'
 import { specializations } from '@/lib/utils'
 import { Search, Filter, MapPin, User, Calendar } from 'lucide-react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+// Dynamically import the FloatingChatButton
+const FloatingChatButton = dynamic(
+  () => import('@/components/assistant/FloatingChatButton'),
+  { ssr: false }
+)
 
 interface Doctor {
   id: string
@@ -150,7 +157,7 @@ export default function PatientDashboard() {
     return null
   }
 
-  const cities = [...new Set(doctors.map(d => d.city))].sort()
+  const cities = [...new Set(doctors.map(d => d.city))].sort() 
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -281,6 +288,9 @@ export default function PatientDashboard() {
         onBook={handleBooking}
         loading={bookingLoading}
       />
+
+      {/* Floating Chat Button */}
+      <FloatingChatButton />
     </div>
   )
 }

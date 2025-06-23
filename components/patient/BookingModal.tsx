@@ -74,7 +74,7 @@ export function BookingModal({
 
   // Generate next 7 days
   const availableDates = Array.from({ length: 7 }, (_, i) => {
-    const date = addDays(new Date(), i + 1)
+    const date = addDays(new Date(), i)
     return {
       value: format(date, 'yyyy-MM-dd'),
       label: format(date, 'MMM d, yyyy'),
