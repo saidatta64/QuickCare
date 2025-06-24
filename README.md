@@ -2,9 +2,13 @@
 
 QuickCare is a modern healthcare appointment management system that connects patients with healthcare providers. It offers a seamless experience for booking, managing, and tracking medical appointments.
 
-## Try yourself
+## 👥 Contributors
 
-url here
+- [@saidatta64](https://github.com/OmPharande) – Developer, Maintainer
+
+## 🔗 Live Demo
+
+[Visit the deployed app here](https://quick-care-xi.vercel.app)
 
 ## Features
 
@@ -60,8 +64,8 @@ or leave it blank to use the default.
 
 1. Clone the repository:
    ```bash
-   git clone [your-repository-url]
-   cd project
+   git clone [[your-repository-url]](https://github.com/saidatta64/QuickCare.git)
+   cd QuickCare
    ```
 
 2. Install dependencies:
