@@ -4,7 +4,7 @@ QuickCare is a modern healthcare appointment management system that connects pat
 
 ## 👥 Contributors
 
-- [@saidatta64](https://github.com/OmPharande) – Developer, Maintainer
+- [@OM Pharande](https://github.com/OmPharande) – Developer, Maintainer
 
 ## 🔗 Live Demo
 
