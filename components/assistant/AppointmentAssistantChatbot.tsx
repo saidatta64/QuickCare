@@ -138,7 +138,7 @@ export default function AppointmentAssistantChatbot() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto bg-white dark:bg-gray-900 shadow-lg">
+    <div className="relative flex flex-col h-screen max-w-2xl mx-auto bg-white dark:bg-gray-900 shadow-lg">
       {/* Clean Header */}
       <div className="flex items-center justify-between p-4 bg-blue-600 text-white">
         <div className="flex items-center space-x-3">
@@ -156,7 +156,7 @@ export default function AppointmentAssistantChatbot() {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800 pb-24">
         {messages.map((message) => (
           <div key={message.id} className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}>
             <div className={cn('flex items-start space-x-2 max-w-[80%]', message.role === 'user' ? 'flex-row-reverse space-x-reverse' : '')}>
@@ -227,36 +227,43 @@ export default function AppointmentAssistantChatbot() {
         </div>
       )}
 
-      {/* Input Area */}
-      <form ref={formRef} onSubmit={handleSubmit} className="p-4 border-t bg-white dark:bg-gray-900">
-        <div className="flex items-center space-x-2">
-          <div className="flex-1 relative">
-            <Input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about appointments, doctors, or symptoms..."
-              className="w-full pr-12 rounded-full border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              disabled={isLoading}
+      {/* Input Box Floating at Bottom */}
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="absolute bottom-0 left-0 w-full bg-white dark:bg-gray-900 p-3 border-t flex items-center space-x-2"
+        style={{ zIndex: 10 }}
+      >
+        <Input
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Type your message..."
+          className="flex-1"
+          autoComplete="off"
+        />
+        <Button
+          type="submit"
+          disabled={isLoading || !input.trim()}
+          size="icon"
+          className={
+            (isLoading || !input.trim())
+              ? "bg-gray-200 dark:bg-gray-800"
+              : "bg-blue-50 dark:bg-blue-900"
+          }
+        >
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 animate-spin text-blue-600 dark:text-blue-400" />
+          ) : (
+            <Send
+              className={
+                "w-5 h-5 " + ((isLoading || !input.trim())
+                  ? "text-gray-400 dark:text-gray-500"
+                  : "text-blue-600 dark:text-blue-400")
+              }
             />
-            <Button
-              type="submit"
-              size="icon"
-              variant="ghost"
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full hover:bg-blue-50"
-              disabled={isLoading || !input.trim()}
-            >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-              ) : (
-                <Send className="w-4 h-4 text-blue-600" />
-              )}
-            </Button>
-          </div>
-        </div>
-        <p className="text-xs text-gray-500 mt-2 text-center">
-          Ask about medical appointments and healthcare services
-        </p>
+          )}
+        </Button>
       </form>
     </div>
   );
