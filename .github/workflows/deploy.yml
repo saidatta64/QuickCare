@@ -9,8 +9,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    env:
-      DOCKER_HUB_USERNAME: saidatta64
     
     steps:
       - name: Check Out Repo
@@ -22,8 +20,14 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ env.DOCKER_HUB_USERNAME }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/quickcare:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/quickcare:latest
+
       - name: Verify Pushed Image
-        run: docker pull ${{ env.DOCKER_HUB_USERNAME }}/quickcare:latest
+        run: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/quickcare:latest
