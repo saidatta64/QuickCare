@@ -8,6 +8,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ENV NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+ENV SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
 RUN npm run build
 
 FROM node:22-alpine AS runner
